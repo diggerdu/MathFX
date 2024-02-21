@@ -43,7 +43,8 @@ jobs:
 
       - name: Rename
         run: |
-          $v="${{steps.tag.outputs.tag}}".Substring(1)
+          # $v="${{steps.tag.outputs.tag}}".Substring(1)
+          $v = "1"
           mv "./dist_electron/MathFX Setup $v.exe" "MathFX-Setup-$v.exe"
           mv "./dist_electron/MathFX Setup $v.exe.blockmap" "MathFX-Setup-$v.exe.blockmap"
           mv "./dist_electron/latest.yml" "latest.yml"
@@ -62,51 +63,4 @@ jobs:
         with:
           allowUpdates: true
           artifacts: "*.exe,*.blockmap,*.yml"
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-  macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      # Uses NodeJs Environment
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-          registry-url: https://registry.npmjs.org/
-          cache: "yarn"
-
-      - name: install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: build macos x64
-        run: yarn electron:build
-
-      - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
-
-      - name: Rename
-        run: |
-          v=${{steps.tag.outputs.tag}}
-          v=${v:1}
-          mv ./dist_electron/MathFX-$v.dmg ./MathFX-$v.dmg
-          mv ./dist_electron/MathFX-$v.dmg.blockmap ./MathFX-$v.dmg.blockmap
-          mv ./dist_electron/MathFX-$v-mac.zip ./MathFX-$v-mac.zip
-          mv ./dist_electron/latest-mac.yml ./latest-mac.yml
-      - name: Upload Prerelease
-        uses: ncipollo/release-action@v1
-        if: ${{ contains(steps.tag.outputs.tag,'beta') }}
-        with:
-          allowUpdates: true
-          artifacts: "*.dmg,*.blockmap,*.yml"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: true
-
-      - name: Upload Release
-        uses: ncipollo/release-action@v1
-        if: ${{ !contains(steps.tag.outputs.tag,'beta') }}
-        with:
-          allowUpdates: true
-          artifacts: "*.dmg,*.blockmap,*.yml"
           token: ${{ secrets.GITHUB_TOKEN }}
