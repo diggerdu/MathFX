@@ -43,7 +43,6 @@ jobs:
 
       - name: Rename
         run: |
-          # $v="${{steps.tag.outputs.tag}}".Substring(1)
           $v = "1"
           mv "./dist_electron/MathFX Setup $v.exe" "MathFX-Setup-$v.exe"
           mv "./dist_electron/MathFX Setup $v.exe.blockmap" "MathFX-Setup-$v.exe.blockmap"
