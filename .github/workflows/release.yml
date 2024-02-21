@@ -37,9 +37,9 @@ jobs:
       - name: build win x64
         run: yarn electron:build
 
-      - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
+      #- name: Get tag
+      #  id: tag
+      #  uses: dawidd6/action-get-tag@v1
 
       - name: Rename
         run: |
