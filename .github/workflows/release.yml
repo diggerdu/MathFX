@@ -37,13 +37,13 @@ jobs:
       - name: build win x64
         run: yarn electron:build
 
-      #- name: Get tag
-      #  id: tag
-       #   uses: dawidd6/action-get-tag@v1
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
 
       - name: Rename
         run: |
-          $v="0.3.1"
+          $v="${{steps.tag.outputs.tag}}".Substring(1)
           mv "./dist_electron/MathFX Setup $v.exe" "MathFX-Setup-$v.exe"
           mv "./dist_electron/MathFX Setup $v.exe.blockmap" "MathFX-Setup-$v.exe.blockmap"
           mv "./dist_electron/latest.yml" "latest.yml"
